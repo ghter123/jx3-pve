@@ -102,3 +102,12 @@ dist
 
 # TernJS port file
 .tern-port
+
+# go-cqhttp run file
+go-cqhttp/data
+go-cqhttp/logs
+go-cqhttp/device.json
+go-cqhttp/go-cqhttp.bat
+go-cqhttp/session.token
+go-cqhttp/password.encrypt
+go-cqhttp/config.yml

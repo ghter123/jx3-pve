@@ -1,5 +1,13 @@
-declare interface Self {
-    "platform": String
+declare interface Event {
+    "time": number
+    "self_id": number
+    "post_type": 'message' | 'notice' | 'request' | 'meta_event'
+}
+
+declare interface MessageEvent extends Event {
+    "message_id": String,
+    "message": Message[],
+    "alt_message": String,
     "user_id": String
 }
 
@@ -17,74 +25,7 @@ declare enum MessageType {
 }
 
 declare interface Message {
-    "type": MessageType
+    "post_type": MessageType
+    "message_type": 'group' | 'private'
     "data": TextMessage | MentionMessage | MentionAllMessage | FileMessage | LocationMessage | ReplyMessage
-}
-
-declare interface TextMessage extends Message {
-    "text": String
-}
-
-declare interface MentionMessage extends Message {
-    "user_id": String
-}
-
-declare interface MentionAllMessage extends Message {
-}
-
-declare interface FileMessage extends Message {
-    "file_id": String
-}
-
-declare interface LocationMessage extends Message {
-    "latitude": Number
-    "longitude": Number
-    "title": String
-    "content": String
-}
-
-declare interface ReplyMessage extends Message {
-    "message_id": String
-    "user_id": String
-}
-
-declare enum EventType {
-    meta,
-    message,
-    notice,
-    request
-}
-
-declare interface Event {
-    "id": String
-    "self": Self
-    "time": Number
-    "type": EventType,
-    "detail_type": String,
-    "sub_type": String,
-}
-
-declare interface Request {
-    "action": String
-    "params": Object
-    "echo": String
-}
-
-declare interface Response {
-    "status": String
-    "retcode": Number
-    "data": Object
-    "message": String
-    "echo": String
-}
-
-declare interface MetaHeartbeatEvent extends Event {
-    "interval": Number
-}
-
-declare interface MessageEvent extends Event {
-    "message_id": String,
-    "message": Message[],
-    "alt_message": String,
-    "user_id": String
 }
