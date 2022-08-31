@@ -1,5 +1,5 @@
 export default {
-    '开团': () => {
+    'openTeam': () => {
         
     }
 }

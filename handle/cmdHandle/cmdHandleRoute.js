@@ -1,6 +1,7 @@
-import FileUtil from '../../utils/file';
+import FileUtil from '../../utils/file.js';
 
 const cmdHandleMap = new Map();
+
 const cmdHandleFilePaths = FileUtil.readFilePathList('../');
 // 动态加载所有cmdHandle 
 cmdHandleFilePaths.forEach(f => {
@@ -13,9 +14,13 @@ cmdHandleFilePaths.forEach(f => {
     console.log(`load handle: ${FileUtil.getFileName(f)}`);
 });
 
-export default async (cmd) => {
+const routes = new Map();
+routes.set("开团", "openTeam");
+routes.set("查看团队", "getTeamDetail");
+
+export default async (cmdAlias) => {
+    const cmd = routes.get(cmdAlias) ?? cmdAlias;
     if (!cmdHandleMap.has(cmd)) {
-        console.log(`未知指令：${cmd}`);
         return;
     }
     const handle = cmdHandleMap.get(cmd);

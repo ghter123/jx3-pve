@@ -1,9 +1,15 @@
-export default async function (data) {
-    /** @type {Event} event */
-    const event = JSON.parse(data.toString());
-    switch (event.post_type) {
-        case "message": {
+import cmdHandleRoute from "./cmdHandle/cmdHandleRoute";
 
+/**
+ * 
+ * @param {Event} data 
+ */
+export default async function (data) {
+    switch (data.post_type) {
+        case "message": {
+            if (data.message_type === 'group') {
+                await cmdHandleRoute(data.message);
+            }
         }
         default:
     }
