@@ -21,7 +21,7 @@ const GroupCard = sequelize.define('GroupCard', {
         allowNull: true
     }
 }, {
-    // Other model options go here
+    
 });
 
 export default GroupCard

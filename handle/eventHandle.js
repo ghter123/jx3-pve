@@ -1,13 +1,17 @@
-import cmdHandleRoute from "./cmdHandle/cmdHandleRoute";
-import FileUtil from '../../utils/file.js';
-import routes from "./cmdHandle/cmdHandleRoute.js";
+import path from 'path'
+import { fileURLToPath } from 'url'
+import FileUtil from '../utils/file.js'
+import routes from "./cmdHandleRoute.js"
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const cmdHandleMap = new Map();
 const cmdKeys = new Set(routes.keys())
-const cmdHandleFilePaths = FileUtil.readFilePathList('../');
+const cmdHandleFilePaths = FileUtil.readFilePathList(path.join(__dirname, 'cmdHandle'));
 // 动态加载所有cmdHandle 
-cmdHandleFilePaths.forEach(f => {
-    const cmdHandles = import(f);
+cmdHandleFilePaths.forEach(async f => {
+    const cmdHandles = await import(`file://${f}`)
     if (typeof cmdHandles !== 'object') return;
     for (const cmdHandle in cmdHandles) {
         if (typeof cmdHandles[cmdHandle] !== 'function') continue;
@@ -24,16 +28,23 @@ export default async function (data) {
     switch (data.post_type) {
         case "message": {
             if (data.message_type === 'group') {
-                const messageSplit = data.message.spilt(' ')
-                
-                await cmdHandle(data.message);
+                if (data.message && typeof data.message === 'string') {
+                    const messageSplit = data.message.split(' ')
+                    const cmdKey = messageSplit[0]
+                    if (cmdKeys.has(cmdKey)) {
+                        messageSplit.splice(0, 1)
+                        console.log(cmdKey)
+                        console.log(messageSplit.join(' '))
+                        return await cmdHandle(cmdKey, messageSplit)
+                    }
+                }
             }
         }
         default:
     }
 }
 
-async function cmdHandle(routes, cmdAlias, args) {
+async function cmdHandle(cmdAlias, args) {
     const cmd = routes.get(cmdAlias) ?? cmdAlias;
     if (!cmdHandleMap.has(cmd)) {
         return;

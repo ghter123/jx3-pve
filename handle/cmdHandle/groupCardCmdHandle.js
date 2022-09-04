@@ -1,5 +1,5 @@
-import GroupCard from '../../repository/groupCard/groupCard'
-import Think from '../../repository/groupCard/think'
+import GroupCard from '../../repository/groupCard/groupCard.js'
+import Think from '../../repository/groupCard/think.js'
 
 export default {
     'getGroupCard': async (groupCardName) => {

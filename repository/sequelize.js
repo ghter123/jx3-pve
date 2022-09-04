@@ -1,6 +1,7 @@
 import { Sequelize } from 'sequelize';
+
 const sequelize = new Sequelize({
-    host: 'localhost',
+    host: '0.0.0.0',
     dialect: 'sqlite',
     pool: {
         max: 5,
@@ -8,8 +9,9 @@ const sequelize = new Sequelize({
         acquire: 30000,
         idle: 10000
     },
-    storage: '../db/jx3pve',
-    operatorsAliases: false
+    storage: "./db/database.sqlite"
 });
+
+sequelize.sync()
 
 export default sequelize;

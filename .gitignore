@@ -111,3 +111,6 @@ go-cqhttp/go-cqhttp.bat
 go-cqhttp/session.token
 go-cqhttp/password.encrypt
 go-cqhttp/config.yml
+
+# db
+db

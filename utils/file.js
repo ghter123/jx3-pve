@@ -7,7 +7,7 @@ function readFilePathList(dir, filesList = []) {
         const fullPath = path.join(dir, item);
         const stat = fs.statSync(fullPath);
         if (stat.isDirectory()) {
-            readFileList(path.join(dir, item), filesList);
+            readFilePathList(path.join(dir, item), filesList);
         } else {
             filesList.push(fullPath);
         }
