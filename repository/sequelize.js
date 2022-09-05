@@ -1,4 +1,6 @@
 import { Sequelize } from 'sequelize';
+import GroupCardModel from './groupCard/groupCard';
+import ThinkModel from './groupCard/think';
 
 const sequelize = new Sequelize({
     host: '0.0.0.0',
@@ -12,6 +14,13 @@ const sequelize = new Sequelize({
     storage: "./db/database.sqlite"
 });
 
-sequelize.sync()
+(async () => await sequelize.sync({ alter: true }))();
+
+const GroupCard = GroupCard(sequelize, DataTypes);
+const Think = VideoModel(sequelize, DataTypes);
+
+export const Owner = Think.belongsTo(GroupCard, {
+    foreignKey: "groupCardId"
+})
 
 export default sequelize;

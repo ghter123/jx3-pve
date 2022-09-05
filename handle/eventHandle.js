@@ -11,7 +11,7 @@ const cmdKeys = new Set(routes.keys())
 const cmdHandleFilePaths = FileUtil.readFilePathList(path.join(__dirname, 'cmdHandle'));
 // 动态加载所有cmdHandle 
 cmdHandleFilePaths.forEach(async f => {
-    const cmdHandles = await import(`file://${f}`)
+    const cmdHandles = (await import(`file://${f}`)).default
     if (typeof cmdHandles !== 'object') return;
     for (const cmdHandle in cmdHandles) {
         if (typeof cmdHandles[cmdHandle] !== 'function') continue;
@@ -28,6 +28,7 @@ export default async function (data) {
     switch (data.post_type) {
         case "message": {
             if (data.message_type === 'group') {
+                console.log(data)
                 if (data.message && typeof data.message === 'string') {
                     const messageSplit = data.message.split(' ')
                     const cmdKey = messageSplit[0]
@@ -35,7 +36,11 @@ export default async function (data) {
                         messageSplit.splice(0, 1)
                         console.log(cmdKey)
                         console.log(messageSplit.join(' '))
-                        return await cmdHandle(cmdKey, messageSplit)
+                        const message = await cmdHandle(cmdKey, messageSplit)
+                        return {
+                            message,
+                            groupId: message?.groupId || data.group_id
+                        }
                     }
                 }
             }

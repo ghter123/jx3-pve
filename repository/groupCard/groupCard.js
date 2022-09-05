@@ -1,7 +1,4 @@
-import { DataTypes } from 'sequelize'
-import sequelize from '../sequelize.js'
-
-const GroupCard = sequelize.define('GroupCard', {
+export default (sequelize, DataTypes) => sequelize.define('GroupCard', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -14,14 +11,12 @@ const GroupCard = sequelize.define('GroupCard', {
     },
     type: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: true
     },
     tiebaUrl: {
         type: DataTypes.STRING,
         allowNull: true
     }
 }, {
-    
-});
 
-export default GroupCard
+});

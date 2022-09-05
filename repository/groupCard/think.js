@@ -9,7 +9,7 @@ const Think = sequelize.define('Think', {
     },
     groupCardId: {
         type: DataTypes.INTEGER,
-        allowNull: null
+        allowNull: false
     },
     url: {
         type: DataTypes.STRING
@@ -24,11 +24,5 @@ const Think = sequelize.define('Think', {
 }, {
 
 });
-
-Think.associations = function (models) {
-    Think.belongsTo(models.GroupCard, {
-        foreignKey: "groupCardId"
-    })
-}
 
 export default Think
