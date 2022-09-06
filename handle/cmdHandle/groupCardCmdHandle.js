@@ -1,6 +1,4 @@
-import GroupCard from '../../repository/groupCard/groupCard.js'
-import Think from '../../repository/groupCard/think.js'
-import { Owner } from '../../repository/groupCard/think.js'
+import { GroupCard, Think } from '../../repository/sequelize'
 
 export default {
     'getGroupCard': async (groupCardName) => {
@@ -39,8 +37,20 @@ export default {
             type: '吐槽',
             content
         })
-        return await GroupCard.findByPk(groupCard.getDataValue('id'), { 
+        return await GroupCard.findByPk(groupCard.getDataValue('id'), {
             include: Owner
+        })
+    },
+    'getBadGroupCardThink': async () => {
+        const groupCards = await GroupCard.findAll({
+            include: {
+                model: Think,
+                attributes: ['type'],
+                where: {
+                    type: '吐槽'
+                }
+            },
+            
         })
     }
 }
