@@ -1,4 +1,4 @@
-import { GroupCard, Think, sequelize } from '../../repository/sequelize'
+import { GroupCard, Think, sequelize } from '../../repository/sequelize.js'
 
 export default {
     'getGroupCard': async (groupCardName) => {
@@ -24,7 +24,7 @@ export default {
             type: '点赞',
             content
         })
-        return await GroupCard.findByPk(groupCard.getDataValue('id'), { include: Owner })
+        return await GroupCard.findByPk(groupCard.getDataValue('id'), { include: Think })
     },
     'putBadGroupCardThink': async (groupCardName, content) => {
         let [groupCard] = await GroupCard.findOrCreate({
@@ -38,21 +38,39 @@ export default {
             content
         })
         return await GroupCard.findByPk(groupCard.getDataValue('id'), {
-            include: Owner
+            include: Think
         })
     },
-    'getBadGroupCardThink': async () => {
+    'getBadGroupCards': async () => {
         const groupCards = await GroupCard.findAll({
             include: {
                 model: Think,
-                attributes: ['tyep'],
+                attributes: [],
                 where: {
                     type: '吐槽'
-                }
+                },
+                group: 'type',
+                order: [
+                    [sequelize.fn('count', sequelize.col('type')), 'desc']
+                ]
             },
-            order: [
-                [sequelize.fn('group', sequelize.col('type')), 'DESC']
-            ],
+            limit: 10
+        })
+        return groupCards
+    },
+    'getGoodGroupCards': async () => {
+        const groupCards = await GroupCard.findAll({
+            include: {
+                model: Think,
+                attributes: ['type'],
+                where: {
+                    type: '点赞'
+                },
+                group: 'type',
+                order: [
+                    [sequelize.fn('count', sequelize.col('type')), 'desc']
+                ]
+            },
             limit: 10
         })
         return groupCards

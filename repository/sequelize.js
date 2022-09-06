@@ -1,6 +1,6 @@
-import { Sequelize } from 'sequelize';
-import GroupCardModel from './groupCard/groupCard';
-import ThinkModel from './groupCard/think';
+import { Sequelize, DataTypes } from 'sequelize';
+import GroupCardModel from './groupCard/groupCard.js';
+import ThinkModel from './groupCard/think.js';
 
 const sequelize = new Sequelize({
     host: '0.0.0.0',
@@ -14,7 +14,7 @@ const sequelize = new Sequelize({
     storage: "./db/database.sqlite"
 });
 
-(async () => await sequelize.sync({ alter: true }))();
+// (async () => await sequelize.sync({ alter: true }))();
 
 const GroupCard = GroupCardModel(sequelize, DataTypes);
 const Think = ThinkModel(sequelize, DataTypes);
