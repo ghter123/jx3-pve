@@ -1,4 +1,4 @@
-import { GroupCard, Think } from '../../repository/sequelize'
+import { GroupCard, Think, sequelize } from '../../repository/sequelize'
 
 export default {
     'getGroupCard': async (groupCardName) => {
@@ -45,12 +45,16 @@ export default {
         const groupCards = await GroupCard.findAll({
             include: {
                 model: Think,
-                attributes: ['type'],
+                attributes: ['tyep'],
                 where: {
                     type: '吐槽'
                 }
             },
-            
+            order: [
+                [sequelize.fn('group', sequelize.col('type')), 'DESC']
+            ],
+            limit: 10
         })
+        return groupCards
     }
 }

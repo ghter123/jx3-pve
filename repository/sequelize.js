@@ -24,5 +24,6 @@ GroupCard.hasMany(Think, { foreignKey: 'groupCardId', sourceKey: "id" })
 
 export {
     GroupCard,
-    Think
+    Think,
+    sequelize
 }
