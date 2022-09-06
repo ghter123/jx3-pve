@@ -1,7 +1,4 @@
-import { DataTypes } from 'sequelize'
-import sequelize from '../sequelize.js'
-
-const Think = sequelize.define('Think', {
+export default (sequelize, DataTypes) => sequelize.define('Think', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -21,8 +18,4 @@ const Think = sequelize.define('Think', {
         type: DataTypes.STRING,
         allowNull: false
     }
-}, {
-
-});
-
-export default Think
+}, {})

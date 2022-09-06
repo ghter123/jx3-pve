@@ -16,11 +16,13 @@ const sequelize = new Sequelize({
 
 (async () => await sequelize.sync({ alter: true }))();
 
-const GroupCard = GroupCard(sequelize, DataTypes);
-const Think = VideoModel(sequelize, DataTypes);
+const GroupCard = GroupCardModel(sequelize, DataTypes);
+const Think = ThinkModel(sequelize, DataTypes);
 
-export const Owner = Think.belongsTo(GroupCard, {
-    foreignKey: "groupCardId"
-})
+Think.belongsTo(GroupCard, { foreignKey: "groupCardId" })
+GroupCard.hasMany(Think, { foreignKey: 'groupCardId', sourceKey: "id" })
 
-export default sequelize;
+export {
+    GroupCard,
+    Think
+}

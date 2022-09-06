@@ -17,6 +17,4 @@ export default (sequelize, DataTypes) => sequelize.define('GroupCard', {
         type: DataTypes.STRING,
         allowNull: true
     }
-}, {
-
-});
+}, {});
