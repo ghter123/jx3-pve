@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/ghter123/jx3-pve#readme",
   "dependencies": {
+    "phantomjs": "^2.1.7",
     "sequelize": "^6.21.4",
     "sqlite3": "^5.0.11",
     "ws": "^8.8.1"
