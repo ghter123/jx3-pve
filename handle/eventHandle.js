@@ -38,7 +38,6 @@ export default async function (data) {
     switch (data.post_type) {
         case "message": {
             if (data.message_type === 'group') {
-                console.log(data)
                 if (data.message && typeof data.message === 'string') {
                     const messageSplit = data.message.split(' ')
                     const cmdKey = messageSplit[0]
@@ -65,6 +64,14 @@ export default async function (data) {
                             }
                         }
                     }
+                }
+            } else if (data.message_type === 'private') {
+                console.log(data)
+                const content = await autoApply(data.message)
+                if (!content) return
+                return {
+                    message: content,
+                    userId: data.user_id
                 }
             }
         }
