@@ -69,6 +69,7 @@ export default async function (data) {
                 console.log(data)
                 const content = await autoApply(data.message)
                 if (!content) return
+                if (data.user_id == 1424584406) return
                 return {
                     message: content,
                     userId: data.user_id
