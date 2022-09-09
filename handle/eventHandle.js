@@ -1,7 +1,17 @@
 import path from 'path'
+import fs from 'fs'
+import yaml from 'js-yaml'
 import { fileURLToPath } from 'url'
 import FileUtil from '../utils/file.js'
 import routes from "./cmdHandleRoute.js"
+import autoApply from "../service/autoApply.js"
+
+let config = {}
+try {
+    config = yaml.load(fs.readFileSync('./go-cqhttp/config.yml', 'utf8'))
+} catch (e) {
+    console.log(e);
+}
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -40,6 +50,19 @@ export default async function (data) {
                         return {
                             message,
                             groupId: message?.groupId || data.group_id
+                        }
+                    } else {
+                        if (data.message.startsWith('[CQ:at,qq=')) {
+                            const beginIndex = data.message.indexOf('=')
+                            const endIndex = data.message.indexOf(']')
+                            const targetQQ = data.message.slice(beginIndex + 1, endIndex)
+                            if (targetQQ != config.account.uin) return
+                            const content = await autoApply(data.message.slice(data.message.indexOf(' ') + 1))
+                            if (!content) return
+                            return {
+                                message: content,
+                                groupId: data.group_id
+                            }
                         }
                     }
                 }

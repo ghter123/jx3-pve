@@ -12,7 +12,7 @@ ws.on('message', async (data) => {
             "action": "send_group_msg",
             "params": {
                 "group_id": res.groupId,
-                "message": JSON.stringify(res.message)
+                "message": typeof res.message === 'string' ? res.message : JSON.stringify(res.message)
             },
         }))
     }
